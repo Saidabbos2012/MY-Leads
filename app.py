@@ -23,10 +23,9 @@ def send_message(text):
 
 @app.route('/webhook', methods=['GET'])
 def verify():
-    """Facebook webhook tasdiqlash"""
-    if request.args.get('hub.verify_token') == VERIFY_TOKEN:
-        return request.args.get('hub.challenge')
-    return "Invalid token", 403
+    if request.args.get('hub.verify_token') == os.getenv('VERIFY_TOKEN'):
+        return request.args.get('hub.challenge'), 200
+    return "Invalid verify token", 403
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
